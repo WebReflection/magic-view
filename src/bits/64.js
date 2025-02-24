@@ -7,18 +7,18 @@ const d64 = new DataView(b64);
 const u64 = new Uint8Array(b64);
 
 /**
- * @param {number[]} buffer
+ * @param {import("../wrapper.js").default} wrapper
  * @param {number} i
  * @returns
  */
-export default (buffer, i) => ({
+export default (wrapper, i) => ({
     /**
      * @param {number} byteOffset
      * @param {boolean} [littleEndian]
      * @returns
      */
     getBigInt64(byteOffset, littleEndian = false) {
-        read(buffer, u64, i + byteOffset);
+        read(wrapper.view, u64, i + byteOffset);
         return d64.getBigInt64(0, littleEndian);
     },
 
@@ -28,7 +28,7 @@ export default (buffer, i) => ({
      * @returns
      */
     getBigUint64(byteOffset, littleEndian = false) {
-        read(buffer, u64, i + byteOffset);
+        read(wrapper.view, u64, i + byteOffset);
         return d64.getBigUint64(0, littleEndian);
     },
 
@@ -38,7 +38,7 @@ export default (buffer, i) => ({
      * @returns
      */
     getFloat64(byteOffset, littleEndian = false) {
-        read(buffer, u64, i + byteOffset);
+        read(wrapper.view, u64, i + byteOffset);
         return d64.getFloat64(0, littleEndian);
     },
 
@@ -49,7 +49,7 @@ export default (buffer, i) => ({
      */
     setBigInt64(byteOffset, value, littleEndian = false) {
         d64.setBigInt64(0, value, littleEndian);
-        write(buffer, u64, i + byteOffset);
+        write(wrapper, u64, i + byteOffset);
     },
 
     /**
@@ -59,7 +59,7 @@ export default (buffer, i) => ({
      */
     setBigUint64(byteOffset, value, littleEndian = false) {
         d64.setBigUint64(0, value, littleEndian);
-        write(buffer, u64, i + byteOffset);
+        write(wrapper, u64, i + byteOffset);
     },
 
     /**
@@ -69,6 +69,6 @@ export default (buffer, i) => ({
      */
     setFloat64(byteOffset, value, littleEndian = false) {
         d64.setFloat64(0, value, littleEndian);
-        write(buffer, u64, i + byteOffset);
+        write(wrapper, u64, i + byteOffset);
     },
 });

@@ -1,21 +1,25 @@
 //@ts-check
 
+export const LENGTH = 0XFFFF;
+
 /**
- * @param {number[]} buffer
+ * @param {Uint8Array} view
  * @param {Uint8Array} typed
  * @param {number} i
  */
-export const read = (buffer, typed, i) => {
+export const read = (view, typed, i) => {
     let t = 0, length = typed.length;
-    while (t < length) typed[t++] = buffer[i++];
+    while (t < length) typed[t++] = view[i++];
 };
 
 /**
- * @param {number[]} buffer
+ * @param {import("../wrapper.js").default} wrapper
  * @param {Uint8Array} typed
  * @param {number} i
  */
-export const write = (buffer, typed, i) => {
-    let t = 0, length = typed.length;
-    while (t < length) buffer[i++] = typed[t++];
+export const write = (wrapper, typed, i) => {
+    let view = wrapper.view, size = i + typed.length;
+    if (view.length < size) view = wrapper.grow(size);
+    view.set(typed, i);
+    if (wrapper.i < size) wrapper.i = size;
 };

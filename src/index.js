@@ -1,43 +1,48 @@
 //@ts-check
 
+import { LENGTH } from './bits/utils.js';
+import Wrapper from './wrapper.js';
 import bits64 from './bits/64.js';
 import bits32 from './bits/32.js';
 import bits16 from './bits/32.js';
 import bits8 from './bits/32.js';
 
+const { isArray } = Array;
+const { isView } = ArrayBuffer;
 const { prototype } = DataView;
 
 /**
  * @class
- * @param {number[]} array
+ * @param {number[]|ArrayBuffer|Uint8Array} [buffer]
  * @param {number} [byteOffset]
  * @returns
  */
-function ArrayView(array, byteOffset = 0) {
-    /** @type {Uint8Array} */
-    let view;
-
-    const getView = () => (view || (view = new Uint8Array(array)));
+function ArrayView(buffer = new ArrayBuffer(LENGTH), byteOffset = 0) {
+    if (isArray(buffer)) buffer = new Uint8Array(buffer).buffer;
+    else if (isView(buffer)) buffer = buffer.buffer;
+    const wrapper = new Wrapper(buffer, byteOffset);
 
     return {
         __proto__: prototype,
 
         /** @readonly */
-        get byteLength() { return array.length },
+        get byteLength() { return wrapper.i || (wrapper.view.buffer.byteLength - byteOffset) },
 
         /** @readonly */
         get byteOffset() { return byteOffset },
 
         /** @readonly */
-        get buffer() { return getView().buffer },
+        get buffer() { return wrapper.buffer },
 
-        /** @readonly */
-        get view() { return getView() },
+        ...bits64(wrapper, byteOffset),
+        ...bits32(wrapper, byteOffset),
+        ...bits16(wrapper, byteOffset),
+        ...bits8(wrapper, byteOffset),
 
-        ...bits64(array, byteOffset),
-        ...bits32(array, byteOffset),
-        ...bits16(array, byteOffset),
-        ...bits8(array, byteOffset),
+        /** @param {number} length */
+        grow(length) {
+            if (wrapper.view.length < length) wrapper.grow(length);
+        },
     };
 }
 

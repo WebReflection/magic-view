@@ -7,17 +7,17 @@ const d8 = new DataView(b8);
 const u8 = new Uint8Array(b8);
 
 /**
- * @param {number[]} buffer
+ * @param {import("../wrapper.js").default} wrapper
  * @param {number} i
  * @returns
  */
-export default (buffer, i) => ({
+export default (wrapper, i) => ({
     /**
      * @param {number} byteOffset
      * @returns
      */
     getInt8(byteOffset) {
-        read(buffer, u8, i + byteOffset);
+        read(wrapper.view, u8, i + byteOffset);
         return d8.getInt8(0);
     },
 
@@ -26,7 +26,7 @@ export default (buffer, i) => ({
      * @returns
      */
     getUint8(byteOffset) {
-        read(buffer, u8, i + byteOffset);
+        read(wrapper.view, u8, i + byteOffset);
         return d8.getUint8(0);
     },
 
@@ -36,7 +36,7 @@ export default (buffer, i) => ({
      */
     setInt8(byteOffset, value) {
         d8.setInt8(0, value);
-        write(buffer, u8, i + byteOffset);
+        write(wrapper, u8, i + byteOffset);
     },
 
     /**
@@ -45,6 +45,6 @@ export default (buffer, i) => ({
      */
     setUint8(byteOffset, value) {
         d8.setUint8(0, value);
-        write(buffer, u8, i + byteOffset);
+        write(wrapper, u8, i + byteOffset);
     },
 });

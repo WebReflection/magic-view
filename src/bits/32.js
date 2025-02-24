@@ -7,18 +7,18 @@ const d32 = new DataView(b32);
 const u32 = new Uint8Array(b32);
 
 /**
- * @param {number[]} buffer
+ * @param {import("../wrapper.js").default} wrapper
  * @param {number} i
  * @returns
  */
-export default (buffer, i) => ({
+export default (wrapper, i) => ({
     /**
      * @param {number} byteOffset
      * @param {boolean} [littleEndian]
      * @returns
      */
     getFloat32(byteOffset, littleEndian = false) {
-        read(buffer, u32, i + byteOffset);
+        read(wrapper.view, u32, i + byteOffset);
         return d32.getFloat32(0, littleEndian);
     },
 
@@ -28,7 +28,7 @@ export default (buffer, i) => ({
      * @returns
      */
     getInt32(byteOffset, littleEndian = false) {
-        read(buffer, u32, i + byteOffset);
+        read(wrapper.view, u32, i + byteOffset);
         return d32.getInt32(0, littleEndian);
     },
 
@@ -38,7 +38,7 @@ export default (buffer, i) => ({
      * @returns
      */
     getUint32(byteOffset, littleEndian = false) {
-        read(buffer, u32, i + byteOffset);
+        read(wrapper.view, u32, i + byteOffset);
         return d32.getUint32(0, littleEndian);
     },
 
@@ -49,7 +49,7 @@ export default (buffer, i) => ({
      */
     setFloat32(byteOffset, value, littleEndian = false) {
         d32.setFloat32(0, value, littleEndian);
-        write(buffer, u32, i + byteOffset);
+        write(wrapper, u32, i + byteOffset);
     },
 
     /**
@@ -59,7 +59,7 @@ export default (buffer, i) => ({
      */
     setInt32(byteOffset, value, littleEndian = false) {
         d32.setInt32(0, value, littleEndian);
-        write(buffer, u32, i + byteOffset);
+        write(wrapper, u32, i + byteOffset);
     },
 
     /**
@@ -69,6 +69,6 @@ export default (buffer, i) => ({
      */
     setUint32(byteOffset, value, littleEndian = false) {
         d32.setUint32(0, value, littleEndian);
-        write(buffer, u32, i + byteOffset);
+        write(wrapper, u32, i + byteOffset);
     },
 });

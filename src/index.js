@@ -88,14 +88,17 @@ function MagicView(buffer = new B(0xFFFF), byteOffset = 0) {
     return {
         __proto__: DataView.prototype,
 
+        /** @readonly @type {ArrayBuffer} */
+        get buffer() { return $ || ($ = transfer(view.buffer, i + byteOffset)) },
+
         /** @readonly */
-        get byteLength() { return i || view.length },
+        get byteLength() { return view.length },
 
         /** @readonly */
         get byteOffset() { return byteOffset },
 
-        /** @readonly @type {ArrayBuffer} */
-        get buffer() { return $ || ($ = transfer(view.buffer, i + byteOffset)) },
+        /** @readonly */
+        get size() { return i },
 
         ...bits64(read, write),
         ...bits32(read, write),

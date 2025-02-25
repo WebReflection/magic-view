@@ -1,24 +1,17 @@
 //@ts-check
 
-import { read, write } from './utils.js';
-
 const b32 = new ArrayBuffer(4);
 const d32 = new DataView(b32);
 const u32 = new Uint8Array(b32);
 
-/**
- * @param {import("../wrapper.js").default} wrapper
- * @param {number} i
- * @returns
- */
-export default (wrapper, i) => ({
+export default (read, write) => ({
     /**
      * @param {number} byteOffset
      * @param {boolean} [littleEndian]
      * @returns
      */
     getFloat32(byteOffset, littleEndian = false) {
-        read(wrapper.view, u32, i + byteOffset);
+        read(u32, byteOffset);
         return d32.getFloat32(0, littleEndian);
     },
 
@@ -28,7 +21,7 @@ export default (wrapper, i) => ({
      * @returns
      */
     getInt32(byteOffset, littleEndian = false) {
-        read(wrapper.view, u32, i + byteOffset);
+        read(u32, byteOffset);
         return d32.getInt32(0, littleEndian);
     },
 
@@ -38,7 +31,7 @@ export default (wrapper, i) => ({
      * @returns
      */
     getUint32(byteOffset, littleEndian = false) {
-        read(wrapper.view, u32, i + byteOffset);
+        read(u32, byteOffset);
         return d32.getUint32(0, littleEndian);
     },
 
@@ -49,7 +42,7 @@ export default (wrapper, i) => ({
      */
     setFloat32(byteOffset, value, littleEndian = false) {
         d32.setFloat32(0, value, littleEndian);
-        write(wrapper, u32, i + byteOffset);
+        write(u32, byteOffset);
     },
 
     /**
@@ -59,7 +52,7 @@ export default (wrapper, i) => ({
      */
     setInt32(byteOffset, value, littleEndian = false) {
         d32.setInt32(0, value, littleEndian);
-        write(wrapper, u32, i + byteOffset);
+        write(u32, byteOffset);
     },
 
     /**
@@ -69,6 +62,6 @@ export default (wrapper, i) => ({
      */
     setUint32(byteOffset, value, littleEndian = false) {
         d32.setUint32(0, value, littleEndian);
-        write(wrapper, u32, i + byteOffset);
+        write(u32, byteOffset);
     },
 });

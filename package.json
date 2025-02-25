@@ -1,3 +1,32 @@
 {
-    "type": "module"
+    "type": "module",
+    "name": "@webreflection/magic-view",
+    "version": "0.0.0",
+    "main": "./src/index.js",
+    "module": "./src/index.js",
+    "exports": {
+        ".": {
+            "import": "./src/index.js"
+        }
+    },
+    "files": [
+        "src/*",
+        "README.md",
+        "LIENSE"
+    ],
+    "scripts": {
+        "test": "node test/index.js"
+    },
+    "keywords": ["DataView", "resizable"],
+    "author": "Andrea Giammarchi",
+    "license": "MIT",
+    "description": "DataView with automatically grown buffer",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/WebReflection/magic-view.git"
+    },
+    "bugs": {
+        "url": "https://github.com/WebReflection/magic-view/issues"
+    },
+    "homepage": "https://github.com/WebReflection/magic-view#readme"
 }

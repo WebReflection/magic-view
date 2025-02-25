@@ -1,24 +1,17 @@
 //@ts-check
 
-import { read, write } from './utils.js';
-
 const b16 = new ArrayBuffer(2);
 const d16 = new DataView(b16);
 const u16 = new Uint8Array(b16);
 
-/**
- * @param {import("../wrapper.js").default} wrapper
- * @param {number} i
- * @returns
- */
-export default (wrapper, i) => ({
+export default (read, write) => ({
     /**
      * @param {number} byteOffset
      * @param {boolean} [littleEndian]
      * @returns
      */
     getFloat16(byteOffset, littleEndian = false) {
-        read(wrapper.view, u16, i + byteOffset);
+        read(u16, byteOffset);
         //@ts-ignore
         return d16.getFloat16(0, littleEndian);
     },
@@ -29,7 +22,7 @@ export default (wrapper, i) => ({
      * @returns
      */
     getInt16(byteOffset, littleEndian = false) {
-        read(wrapper.view, u16, i + byteOffset);
+        read(u16, byteOffset);
         return d16.getInt16(0, littleEndian);
     },
 
@@ -39,7 +32,7 @@ export default (wrapper, i) => ({
      * @returns
      */
     getUint16(byteOffset, littleEndian = false) {
-        read(wrapper.view, u16, i + byteOffset);
+        read(u16, byteOffset);
         return d16.getUint16(0, littleEndian);
     },
 
@@ -51,7 +44,7 @@ export default (wrapper, i) => ({
     setFloat16(byteOffset, value, littleEndian = false) {
         //@ts-ignore
         d16.setFloat16(0, value, littleEndian);
-        write(wrapper, u16, i + byteOffset);
+        write(u16, byteOffset);
     },
 
     /**
@@ -61,7 +54,7 @@ export default (wrapper, i) => ({
      */
     setInt16(byteOffset, value, littleEndian = false) {
         d16.setInt16(0, value, littleEndian);
-        write(wrapper, u16, i + byteOffset);
+        write(u16, byteOffset);
     },
 
     /**
@@ -71,6 +64,6 @@ export default (wrapper, i) => ({
      */
     setUint16(byteOffset, value, littleEndian = false) {
         d16.setUint16(0, value, littleEndian);
-        write(wrapper, u16, i + byteOffset);
+        write(u16, byteOffset);
     },
 });

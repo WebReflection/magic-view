@@ -1,10 +1,9 @@
-import { LENGTH } from '../src/bits/utils.js';
-
-import ArrayView from '../src/index.js';
+import MagicView from '../src/index.js';
 
 // fails in node
 // for (let a = [], i = 0; i <= 112813858; a[i++] = '3bipp2');
 
+const LENGTH = 0xFFFF;
 const TIMES = LENGTH * 2;
 const MAX_BYTE_LENGTH = TIMES * 8;
 
@@ -16,25 +15,8 @@ const r = [];
 for (let i = 0; i < TIMES; i++)
     r.push(Math.random());
 
-let v = new DataView(new ArrayBuffer(MAX_BYTE_LENGTH));
-
-console.time('encode as fixed buffer');
-for (let j = 0, i = 0; i < r.length; i++) {
-    v.setFloat64(j, r[i], littleEndian);
-    j += 8;
-}
-console.timeEnd('encode as fixed buffer');
-
-console.time('decode as fixed buffer');
-for (let j = 0, i = 0; i < r.length; i++) {
-    if (v.getFloat64(j, littleEndian) !== r[i])
-        throw new Error('invalid value');
-    j += 8;
-}
-console.timeEnd('decode as fixed buffer');
-
 let b = new ArrayBuffer(LENGTH, { maxByteLength: MAX_BYTE_LENGTH });
-v = new DataView(b);
+let v = new DataView(b);
 
 console.time('encode as resizable buffer');
 for (let j = 0, i = 0; i < r.length; i++) {
@@ -74,7 +56,7 @@ for (let j = 0, i = 0; i < r.length; i++) {
 console.timeEnd('decode as resizable shared buffer');
 
 
-v = new ArrayView(new Array(MAX_BYTE_LENGTH));
+v = new MagicView(MAX_BYTE_LENGTH);
 
 console.time('encode as array with fixed length');
 for (let j = 0, i = 0; i < r.length; i++) {
@@ -93,7 +75,7 @@ console.timeEnd('decode as array with fixed length');
 
 console.log(r.length, v.buffer.byteLength, MAX_BYTE_LENGTH);
 
-v = new ArrayView;
+v = new MagicView;
 
 console.time('encode as array');
 for (let j = 0, i = 0; i < r.length; i++) {
@@ -123,3 +105,20 @@ for (let j = 0, i = 0; i < r.length; i++) {
 console.timeEnd('decode as dataview from array');
 
 console.log(r.length, buffer.byteLength, MAX_BYTE_LENGTH);
+
+v = new DataView(new ArrayBuffer(MAX_BYTE_LENGTH));
+
+console.time('encode as fixed buffer');
+for (let j = 0, i = 0; i < r.length; i++) {
+    v.setFloat64(j, r[i], littleEndian);
+    j += 8;
+}
+console.timeEnd('encode as fixed buffer');
+
+console.time('decode as fixed buffer');
+for (let j = 0, i = 0; i < r.length; i++) {
+    if (v.getFloat64(j, littleEndian) !== r[i])
+        throw new Error('invalid value');
+    j += 8;
+}
+console.timeEnd('decode as fixed buffer');

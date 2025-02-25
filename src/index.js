@@ -66,6 +66,8 @@ function MagicView(buffer = new B(0xFFFF), byteOffset = 0) {
      * @param {number} byteOffset
      */
     const read = (ui8a, byteOffset) => {
+        // much slower
+        // ui8a.set(view.subarray(byteOffset, byteOffset + ui8a.length));
         for (let i = 0, length = ui8a.length; i < length; i++)
             ui8a[i] = view[byteOffset++];
     };
@@ -75,10 +77,12 @@ function MagicView(buffer = new B(0xFFFF), byteOffset = 0) {
      * @param {number} byteOffset
      */
     const write = (ui8a, byteOffset) => {
-        const length = byteOffset + ui8a.length;
-        resize(length);
+        const size = byteOffset + ui8a.length;
+        resize(size);
         view.set(ui8a, byteOffset);
-        if (i < length) i = length;
+        // slower in v8
+        // for (let i = 0; i < ui8a.length; view[byteOffset++] = ui8a[i++]);
+        if (i < size) i = size;
     };
 
     return {

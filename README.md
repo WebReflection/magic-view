@@ -45,3 +45,13 @@ class MagicView extends DataView {
     reset() {}
 }
 ```
+
+### What problem does this module solve?
+
+The *DataView* primitive is pretty awesome but it's decoupled with the handling of the *buffer* in term of size, even if the *byteOffset* is mandatory and it should be tracked elsewhere while building up the final buffer.
+
+As the size of each numeric type is also known it made somehow sense to me to have a thin indirection able to keep "*growing*" the buffer, without using a *resizable* *ArrayBuffer* at all, simply transfering buffers each time size boundaries are touched.
+
+This utility avoids headaches around how much big should be the `maxByteLength` for a *resizable ArrayBuffer*, working as fast as a resizable *SharedArrayBuffer* would work but it tries to keep the amount of needed/used *RAM* minimal, with a default set to `0xFFFF` (64K) which is also the size it increments the buffer each time that limit is reached.
+
+In short, this module is ideal to *encode* incrementally while a *DataView* would be ideal to *decode* as its performance would be unmatched, yet this module could be used to *decode* too with 2X slowdown due extra operations needed to populate each right number via the right data.

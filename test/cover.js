@@ -1,6 +1,6 @@
 //@ts-check
 
-import MagicView from '../src/typed.js';
+import MagicView from '../src/index.js';
 
 const encoder = new TextEncoder;
 const decoder = new TextDecoder;

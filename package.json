@@ -4,21 +4,16 @@
     "version": "0.1.1",
     "main": "./src/index.js",
     "module": "./src/index.js",
-    "types": "./types/typed.d.ts",
+    "types": "./src/index.d.ts",
     "exports": {
         ".": {
             "import": "./src/index.js",
-            "types": "./types/typed.d.ts"
-        },
-        "./typed": {
-            "import": "./src/typed.js",
-            "types": "./types/typed.d.ts"
+            "types": "./src/index.d.ts"
         },
         "./package.json": "./package.json"
     },
     "files": [
         "src/*",
-        "types/*",
         "README.md",
         "LIENSE"
     ],
@@ -26,7 +21,7 @@
         "build": "npm run ts && npm run benchmark && npm run test",
         "benchmark": "node test/index.js",
         "test": "c8 node ./test/cover.js",
-        "ts": "tsc --allowJs --checkJs --lib dom,esnext --target esnext -d --emitDeclarationOnly --outDir ./types ./src/typed.js",
+        "ts": "tsc --allowJs --checkJs --lib dom,esnext --target esnext -d --emitDeclarationOnly --outDir ./types ./src/index.js",
         "coverage": "mkdir -p ./coverage; c8 report --reporter=text-lcov > ./coverage/lcov.info"
     },
     "keywords": [

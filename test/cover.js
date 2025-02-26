@@ -11,6 +11,8 @@ const encoder = new TextEncoder;
 const decoder = new TextDecoder;
 
 let mv = new MagicView([0, 0, 0], 1);
+assert(mv instanceof MagicView);
+assert(mv instanceof DataView);
 assert(mv.byteLength === 2);
 
 mv.setUint8(1, 1);

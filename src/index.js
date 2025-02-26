@@ -5,11 +5,8 @@ import bits16 from './bits/16.js';
 import bits32 from './bits/32.js';
 import bits64 from './bits/64.js';
 
-const B = ArrayBuffer;
-const U8 = Uint8Array;
-
 const { isArray } = Array;
-const { isView } = B;
+const { isView } = ArrayBuffer;
 
 /**
  * @param {Transferable} buffer
@@ -17,7 +14,7 @@ const { isView } = B;
  * @param {number} byteOffset
  * @returns
  */
-const review = (buffer, length, byteOffset) => new U8(
+const review = (buffer, length, byteOffset) => new Uint8Array(
     transfer(buffer, length),
     byteOffset
 );
@@ -34,101 +31,99 @@ const transfer = (buffer, length) => buffer.transferToFixedLength(length);
 /** @typedef {import("./magic-view.js").TypedArrayConstructor} TypedArrayConstructor */
 /** @typedef {import("./magic-view.js").Read} Read */
 /** @typedef {import("./magic-view.js").Write} Write */
+/** @typedef {{(buffer?: Init, byteOffset?: number): import("./magic-view.js").MagicView, new (buffer?: Init, byteOffset?: number): import("./magic-view.js").MagicView}} MagicView */
 
-/**
- * @param {Init} [buffer]
- * @param {number} [byteOffset]
- * @returns
- */
-export default function MagicView(buffer = new B(0xFFFF), byteOffset = 0) {
-    if (typeof buffer === 'number') buffer = new B(buffer);
-    else if (isArray(buffer)) buffer = new U8(buffer).buffer;
-    else if (isView(buffer)) buffer = /** @type {Transferable}*/(buffer.buffer);
+export default /** @type {MagicView} */(/** @type {unknown} */(
+    function MagicView(buffer = new ArrayBuffer(0xFFFF), byteOffset = 0) {
+        if (typeof buffer === 'number') buffer = new ArrayBuffer(buffer);
+        else if (isArray(buffer)) buffer = new Uint8Array(buffer).buffer;
+        else if (isView(buffer)) buffer = /** @type {Transferable}*/(buffer.buffer);
 
-    /** @type {Transferable?} */
-    let $ = null;
-    let view = new U8(/** @type {Transferable}*/(buffer), byteOffset), i = 0;
-    const LENGTH = view.length;
-
-    /**
-     * @param {number} length
-     */
-    const resize = length => {
-        if (view.length < length) {
-            view = review(view.buffer, length + byteOffset + LENGTH, byteOffset);
-            // console.log('resize', view.length);
-        }
-    };
-
-    /** @type {Read} */
-    const read = (ui8a, byteOffset) => {
-        // much slower in both v8 and jsc
-        // ui8a.set(view.subarray(byteOffset, byteOffset + ui8a.length));
-        for (let i = 0; i < ui8a.length; i++)
-            ui8a[i] = view[byteOffset++];
-    };
-
-    /** @type {Write} */
-    const write = (ui8a, byteOffset) => {
-        const size = byteOffset + ui8a.length;
-        resize(size);
-        if (i < size) i = size;
-        // slower in v8
-        // for (let j = 0; j < ui8a.length; j++) view[byteOffset++] = ui8a[j];
-        view.set(ui8a, byteOffset);
-    };
-
-    return {
-        //@ts-ignore
-        __proto__: DataView.prototype,
-
-        /** @readonly @type {ArrayBuffer} */
-        get buffer() { return $ || ($ = transfer(view.buffer, i + byteOffset)) },
-
-        /** @readonly */
-        get byteLength() { return view.length },
-
-        /** @readonly */
-        get byteOffset() { return byteOffset },
-
-        /** @readonly */
-        get size() { return i },
-
-        ...bits64(read, write),
-        ...bits32(read, write),
-        ...bits16(read, write),
-        ...bits8(read, write),
+        /** @type {Transferable?} */
+        let $ = null;
+        let view = new Uint8Array(/** @type {Transferable}*/(buffer), byteOffset), i = 0;
+        const LENGTH = view.length;
 
         /**
-         * Reads bytes from byteOffset to byteOffset + size and return
-         * a typed array - by default it's a Uint8Array
-         * @param {number} byteOffset
-         * @param {number} size
-         * @param {TypedArrayConstructor} [Class]
-         * @returns
+         * @param {number} length
          */
-        getTyped(byteOffset, size, Class = Uint8Array) {
-            return new Class(view.buffer.slice(byteOffset, byteOffset + size));
-        },
+        const resize = length => {
+            if (view.length < length) {
+                view = review(view.buffer, length + byteOffset + LENGTH, byteOffset);
+                // console.log('resize', view.length);
+            }
+        };
 
-        /**
-         * Append the content of any typed array ot the current buffer,
-         * automatically resizing it on demand.
-         * @param {number} byteOffset
-         * @param {ArrayBufferView} typed
-         */
-        setTyped(byteOffset, typed) {
-            const ui8a = typed instanceof U8 ? typed : new U8(typed.buffer);
-            write(ui8a, byteOffset);
-        },
+        /** @type {Read} */
+        const read = (ui8a, byteOffset) => {
+            // much slower in both v8 and jsc
+            // ui8a.set(view.subarray(byteOffset, byteOffset + ui8a.length));
+            for (let i = 0; i < ui8a.length; i++)
+                ui8a[i] = view[byteOffset++];
+        };
 
-        /**
-         * Reset the whole instance properties, erasing the buffer too.
-         */
-        reset() {
-            view = new U8(/** @type {Transferable}*/(new B(LENGTH)), byteOffset);
-            i = 0;
-            $ = null;
-        },
-    };
-}
+        /** @type {Write} */
+        const write = (ui8a, byteOffset) => {
+            const size = byteOffset + ui8a.length;
+            resize(size);
+            if (i < size) i = size;
+            // slower in v8
+            // for (let j = 0; j < ui8a.length; j++) view[byteOffset++] = ui8a[j];
+            view.set(ui8a, byteOffset);
+        };
+
+        return {
+            //@ts-ignore
+            __proto__: DataView.prototype,
+
+            /** @readonly @type {ArrayBuffer} */
+            get buffer() { return $ || ($ = transfer(view.buffer, i + byteOffset)) },
+
+            /** @readonly */
+            get byteLength() { return view.length },
+
+            /** @readonly */
+            get byteOffset() { return byteOffset },
+
+            /** @readonly */
+            get size() { return i },
+
+            ...bits64(read, write),
+            ...bits32(read, write),
+            ...bits16(read, write),
+            ...bits8(read, write),
+
+            /**
+             * Reads bytes from byteOffset to byteOffset + size and return
+             * a typed array - by default it's a Uint8Array
+             * @param {number} byteOffset
+             * @param {number} size
+             * @param {TypedArrayConstructor} [Class]
+             * @returns
+             */
+            getTyped(byteOffset, size, Class = Uint8Array) {
+                return new Class(view.buffer.slice(byteOffset, byteOffset + size));
+            },
+
+            /**
+             * Append the content of any typed array ot the current buffer,
+             * automatically resizing it on demand.
+             * @param {number} byteOffset
+             * @param {ArrayBufferView} typed
+             */
+            setTyped(byteOffset, typed) {
+                const ui8a = typed instanceof Uint8Array ? typed : new Uint8Array(typed.buffer);
+                write(ui8a, byteOffset);
+            },
+
+            /**
+             * Reset the whole instance properties, erasing the buffer too.
+             */
+            reset() {
+                view = new Uint8Array(/** @type {Transferable}*/(new ArrayBuffer(LENGTH)), byteOffset);
+                i = 0;
+                $ = null;
+            },
+        };
+    }
+));

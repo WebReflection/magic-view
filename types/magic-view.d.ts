@@ -1,6 +1,6 @@
 /** @typedef {ArrayBuffer & {transferToFixedLength(length:number):Transferable}} Transferable */
-/** @typedef {Int8Array|Uint8Array|Float16Array|Int16Array|Uint16Array|Float32Array|Int32Array|Uint32Array|Float64Array|BigInt64Array|BigUint64Array} TypedArray */
-/** @typedef {Int8ArrayConstructor|Uint8ArrayConstructor|Float16ArrayConstructor|Int16ArrayConstructor|Uint16ArrayConstructor|Float32ArrayConstructor|Int32ArrayConstructor|Uint32ArrayConstructor|Float64ArrayConstructor|BigInt64ArrayConstructor|BigUint64ArrayConstructor} TypedArrayConstructor */
+/** @typedef {Int8Array|Uint8Array|Int16Array|Uint16Array|Float32Array|Int32Array|Uint32Array|Float64Array|BigInt64Array|BigUint64Array} TypedArray */
+/** @typedef {Int8ArrayConstructor|Uint8ArrayConstructor|Int16ArrayConstructor|Uint16ArrayConstructor|Float32ArrayConstructor|Int32ArrayConstructor|Uint32ArrayConstructor|Float64ArrayConstructor|BigInt64ArrayConstructor|BigUint64ArrayConstructor} TypedArrayConstructor */
 /** @typedef {number|number[]|ArrayBuffer|ArrayBufferView} Init */
 /** @typedef {(ui8a:Uint8Array, byteOffset:number) => void} Read */
 /** @typedef {(ui8a:Uint8Array, byteOffset:number) => void} Write */
@@ -41,17 +41,8 @@ export class MagicView extends DataView<ArrayBuffer> {
 export type Transferable = ArrayBuffer & {
     transferToFixedLength(length: number): Transferable;
 };
-export type TypedArray = Int8Array | Uint8Array | Float16Array | Int16Array | Uint16Array | Float32Array | Int32Array | Uint32Array | Float64Array | BigInt64Array | BigUint64Array;
-export type TypedArrayConstructor = Int8ArrayConstructor | Uint8ArrayConstructor | Float32ArrayConstructor | Int16ArrayConstructor | Uint16ArrayConstructor | Float32ArrayConstructor | Int32ArrayConstructor | Uint32ArrayConstructor | Float64ArrayConstructor | BigInt64ArrayConstructor | BigUint64ArrayConstructor;
+export type TypedArray = Int8Array | Uint8Array | Int16Array | Uint16Array | Float32Array | Int32Array | Uint32Array | Float64Array | BigInt64Array | BigUint64Array;
+export type TypedArrayConstructor = Int8ArrayConstructor | Uint8ArrayConstructor | Int16ArrayConstructor | Uint16ArrayConstructor | Float32ArrayConstructor | Int32ArrayConstructor | Uint32ArrayConstructor | Float64ArrayConstructor | BigInt64ArrayConstructor | BigUint64ArrayConstructor;
 export type Init = number | number[] | ArrayBuffer | ArrayBufferView;
 export type Read = (ui8a: Uint8Array, byteOffset: number) => void;
 export type Write = (ui8a: Uint8Array, byteOffset: number) => void;
-declare class Float16Array extends Float32Array<ArrayBuffer> {
-    constructor(length: number);
-    constructor(array: ArrayLike<number>);
-    constructor(buffer: ArrayBuffer, byteOffset?: number, length?: number);
-    constructor(array: ArrayLike<number> | ArrayBuffer);
-    constructor(elements: Iterable<number>);
-    constructor();
-}
-export {};

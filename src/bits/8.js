@@ -4,6 +4,10 @@ const b8 = new ArrayBuffer(1);
 const d8 = new DataView(b8);
 const u8 = new Uint8Array(b8);
 
+/**
+ * @param {import("../index.js").Read} read
+ * @param {import("../index.js").Write} write
+ */
 export default (read, write) => ({
     /**
      * @param {number} byteOffset

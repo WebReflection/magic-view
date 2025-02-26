@@ -95,7 +95,7 @@ for (let i = 0, length = HOT; i < length; i++) {
 console.log('');
 
 console.log('\x1b[1mMAGIC VIEW RUNTIME BUFFER\x1b[0m');
-v = new MagicView;
+v = new MagicView(0xFFFF);
 for (let i = 0, length = HOT; i < length; i++) {
     const timed = !i || (i === (length - 1));
     if (timed) console.time('encode');

@@ -1,23 +1,15 @@
 # MagicView
 
+[![Coverage Status](https://coveralls.io/repos/github/WebReflection/magic-view/badge.svg?branch=main)](https://coveralls.io/github/WebReflection/magic-view?branch=main)
+
+
 A [DataView](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView) like utility that automatically grows while adding data to its underlying buffer.
 
 ```ts
 import MagicView from 'https://esm.run/@webreflection/magic-view';
 
-type TypedArray = Int8Array     |
-                  Uint8Array    |
-                  Float16Array  |
-                  Int16Array    |
-                  Uint16Array   |
-                  Float32Array  |
-                  Int32Array    |
-                  Uint32Array   |
-                  Float64Array  |
-                  BigInt64Array |
-                  BigUint64Array;
-
-type Init = number | number[] | ArrayBuffer | TypedArray;
+// types
+type Init = number | number[] | ArrayBuffer | ArrayBufferView;
 
 class MagicView extends DataView {
     // meta-description of the constructor per `init` type
@@ -50,6 +42,14 @@ class MagicView extends DataView {
     // will be the equivalent of the returned buffer byteLength
     get size() {}
 
+    // reads bytes from byteOffset to byteOffset + size and return
+    // a typed array - by default it's a Uint8Array, example:
+    // getTyped(pos, Float64Array.BYTES_PER_ELEMENT, Float64Array):Float64Array
+    // returns a Float64Array with length 1 and the number at its index 0
+    getTyped(byteOffset:number, size:number, Class:TypedArray = Uint8Array) {
+        return new Class(size);
+    }
+
     // like any other DataView method except it accepts
     // any TypedArray and it adds that to the underlying buffer
     // on matter the length of it: it will grow if needed.
@@ -73,6 +73,8 @@ Here, things are simpler:
 mv.setInt32(mv.size, 123);
 mv.setInt32(mv.size, 456);
 mv.setInt32(mv.size, 789);
+// add an encoded string too
+mv.setTyped(mv.size, new TextEncoder().encode("magic"));
 ```
 
 As the size of each numeric type is known it made somehow sense to me to have a thin indirection able to keep "*growing*" the buffer, without using a *resizable* *ArrayBuffer* at all, simply transfering buffers each time size boundaries are touched.

@@ -4,6 +4,10 @@ const b16 = new ArrayBuffer(2);
 const d16 = new DataView(b16);
 const u16 = new Uint8Array(b16);
 
+/**
+ * @param {import("../index.js").Read} read
+ * @param {import("../index.js").Write} write
+ */
 export default (read, write) => ({
     /**
      * @param {number} byteOffset
@@ -11,6 +15,7 @@ export default (read, write) => ({
      * @returns
      */
     getFloat16(byteOffset, littleEndian = false) {
+        /* c8 ignore next 3 */
         read(u16, byteOffset);
         //@ts-ignore
         return d16.getFloat16(0, littleEndian);
@@ -42,6 +47,7 @@ export default (read, write) => ({
      * @param {boolean} [littleEndian]
      */
     setFloat16(byteOffset, value, littleEndian = false) {
+        /* c8 ignore next 3 */
         //@ts-ignore
         d16.setFloat16(0, value, littleEndian);
         write(u16, byteOffset);

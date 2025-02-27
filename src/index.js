@@ -93,6 +93,16 @@ function MagicView(buffer = new ArrayBuffer(0xFFFF), byteOffset = 0) {
         ...bits8(read, write),
 
         /**
+         * Reads bytes from byteOffset to byteOffset + size and return an array
+         * @param {number} byteOffset
+         * @param {number} size
+         * @returns
+         */
+        getArray(byteOffset, size) {
+            return [...view.subarray(byteOffset, byteOffset + size)];
+        },
+
+        /**
          * Reads bytes from byteOffset to byteOffset + size and return
          * a typed array - by default it's a Uint8Array
          * @param {number} byteOffset
@@ -102,6 +112,19 @@ function MagicView(buffer = new ArrayBuffer(0xFFFF), byteOffset = 0) {
          */
         getTyped(byteOffset, size, Class = Uint8Array) {
             return new Class(view.buffer.slice(byteOffset, byteOffset + size));
+        },
+
+        /**
+         * Append the content of an array ot the current buffer,
+         * automatically resizing it on demand.
+         * @param {number} byteOffset
+         * @param {number[]} array
+         */
+        setArray(byteOffset, array) {
+          const size = byteOffset + array.length;
+          resize(size);
+          if (i < size) i = size;
+          for (let j = 0; j < array.length; j++) view[byteOffset++] = array[j];
         },
 
         /**

@@ -13,7 +13,6 @@ const { isView } = ArrayBuffer;
 /** @typedef {(ui8a:Uint8Array, byteOffset:number) => void} Read */
 /** @typedef {(ui8a:Uint8Array, byteOffset:number) => void} Write */
 
-/* c8 ignore next 45 */
 /**
  * @extends {DataView<ArrayBuffer>}
  */
@@ -35,6 +34,16 @@ export class MagicView extends DataView {
     get size() { return this.byteLength }
 
     /**
+     * Reads bytes from byteOffset to byteOffset + size and return an array
+     * @param {number} byteOffset
+     * @param {number} size
+     * @returns
+     */
+    getArray(byteOffset, size) {
+        return [...new Uint8Array(this.buffer.slice(byteOffset, byteOffset + size))];
+    }
+
+    /**
      * Reads bytes from byteOffset to byteOffset + size and return
      * a typed array - by default it's a Uint8Array
      * @param {number} byteOffset
@@ -43,8 +52,16 @@ export class MagicView extends DataView {
      * @returns
      */
     getTyped(byteOffset, size, Class = Uint8Array) {
-        return new Class(size);
+        return new Class(this.buffer.slice(byteOffset, byteOffset + size));
     }
+
+    /**
+     * Append the content of an array ot the current buffer,
+     * automatically resizing it on demand.
+     * @param {number} byteOffset
+     * @param {number[]} array
+     */
+    setArray(byteOffset, array) {}
 
     /**
      * Append the content of any typed array ot the current buffer,

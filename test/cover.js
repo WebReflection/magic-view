@@ -84,3 +84,7 @@ mv.setBigInt64(0, 1n);
 assert(mv.getBigInt64(0) === 1n);
 mv.setFloat64(0, 1);
 assert(mv.getFloat64(0) === 1);
+
+let size = mv.size;
+mv.setArray(size, [1, 2, 3, 4]);
+assert(mv.getArray(size, 4).join(',') === '1,2,3,4');

@@ -2,6 +2,7 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/WebReflection/magic-view/badge.svg?branch=main)](https://coveralls.io/github/WebReflection/magic-view?branch=main)
 
+<sup>**Social Media Photo by [Simon Berger](https://unsplash.com/@simon_berger) on [Unsplash](https://unsplash.com/)**</sup>
 
 A [DataView](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView) like utility that automatically grows while adding data to its underlying buffer.
 

@@ -2,9 +2,9 @@ declare function _default(read: import("../index.js").Read, write: import("../in
     /**
      * @param {number} byteOffset
      * @param {boolean} [littleEndian]
-     * @returns
+     * @returns {number}
      */
-    getFloat16(byteOffset: number, littleEndian?: boolean): any;
+    getFloat16(byteOffset: number, littleEndian?: boolean): number;
     /**
      * @param {number} byteOffset
      * @param {boolean} [littleEndian]

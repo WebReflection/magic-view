@@ -118,10 +118,28 @@ for (let i = 0, length = HOT; i < length; i++) {
 }
 console.log('');
 
-console.log('\x1b[1mDATA VIEW DECODE\x1b[0m');
 const buffer = v.buffer;
+
+console.log('\x1b[1mDATA VIEW DECODE\x1b[0m');
 for (let i = 0, length = HOT; i < length; i++) {
     v = new DataView(buffer);
+
+    const timed = !i || (i === (length - 1));
+    if (timed) console.time('decode');
+    for (let j = 0, i = 0; i < r.length; i++) {
+        if (v.getFloat64(j, littleEndian) !== r[i])
+            throw new Error('invalid value');
+        j += 8;
+    }
+    if (timed) console.timeEnd('decode');
+
+    if (i && timed) console.assert(v.buffer.byteLength === MAX_BYTE_LENGTH);
+}
+console.log('');
+
+console.log('\x1b[1mBETTER VIEW DECODE\x1b[0m');
+for (let i = 0, length = HOT; i < length; i++) {
+    v = new BetterView(buffer);
 
     const timed = !i || (i === (length - 1));
     if (timed) console.time('decode');

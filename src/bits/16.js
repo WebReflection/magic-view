@@ -12,7 +12,7 @@ export default (read, write) => ({
     /**
      * @param {number} byteOffset
      * @param {boolean} [littleEndian]
-     * @returns
+     * @returns {number}
      */
     getFloat16(byteOffset, littleEndian = false) {
         /* c8 ignore next 3 */

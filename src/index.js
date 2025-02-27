@@ -4,9 +4,11 @@ import bits8 from './bits/8.js';
 import bits16 from './bits/16.js';
 import bits32 from './bits/32.js';
 import bits64 from './bits/64.js';
+import BetterView from './better-view.js';
 
 const { isArray } = Array;
 const { isView } = ArrayBuffer;
+const { prototype } = BetterView;
 
 /**
  * @param {Transferable} buffer
@@ -28,6 +30,7 @@ const transfer = (buffer, length) => buffer.transferToFixedLength(length);
 
 /** @typedef {import("./magic-view.js").Init} Init */
 /** @typedef {import("./magic-view.js").Transferable} Transferable */
+/** @typedef {import("./magic-view.js").TypedArray} TypedArray */
 /** @typedef {import("./magic-view.js").TypedArrayConstructor} TypedArrayConstructor */
 /** @typedef {import("./magic-view.js").Read} Read */
 /** @typedef {import("./magic-view.js").Write} Write */
@@ -73,7 +76,7 @@ function MagicView(buffer = new ArrayBuffer(0xFFFF), byteOffset = 0) {
 
     return {
         //@ts-ignore
-        __proto__: DataView.prototype,
+        __proto__: prototype,
 
         /** @readonly @type {ArrayBuffer} */
         get buffer() { return $ || ($ = transfer(view.buffer, i + byteOffset)) },
@@ -131,7 +134,7 @@ function MagicView(buffer = new ArrayBuffer(0xFFFF), byteOffset = 0) {
          * Append the content of any typed array ot the current buffer,
          * automatically resizing it on demand.
          * @param {number} byteOffset
-         * @param {ArrayBufferView} typed
+         * @param {TypedArray | ArrayBufferView} typed
          */
         setTyped(byteOffset, typed) {
             const ui8a = typed instanceof Uint8Array ? typed : new Uint8Array(typed.buffer);
@@ -149,6 +152,6 @@ function MagicView(buffer = new ArrayBuffer(0xFFFF), byteOffset = 0) {
     };
 }
 
-MagicView.prototype = DataView.prototype;
+MagicView.prototype = prototype;
 
 export default /** @type {MagicView} */(/** @type {unknown} */(MagicView));

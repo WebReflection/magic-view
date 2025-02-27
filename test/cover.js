@@ -1,6 +1,7 @@
 //@ts-check
 
 import MagicView from '../src/index.js';
+import BetterView from '../src/better-view.js';
 
 /** @param {boolean} situation */
 const assert = situation => {
@@ -88,3 +89,9 @@ assert(mv.getFloat64(0) === 1);
 let size = mv.size;
 mv.setArray(size, [1, 2, 3, 4]);
 assert(mv.getArray(size, 4).join(',') === '1,2,3,4');
+
+const bv = new BetterView(mv.buffer);
+bv.setTyped(0, encoder.encode('magic'));
+assert(decoder.decode(bv.getTyped(0, 5)) === 'magic');
+bv.setArray(size, [1, 2, 3, 4]);
+assert(bv.getArray(size, 4).join(',') === '1,2,3,4');

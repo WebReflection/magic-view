@@ -2,6 +2,7 @@
 
 // ⚠️ This file exists only as TS hack/workaround!
 // ⚠️ Nothing in this file is ever imported or executed!
+import BetterView from './better-view.js';
 
 const { isArray } = Array;
 const { isView } = ArrayBuffer;
@@ -13,10 +14,7 @@ const { isView } = ArrayBuffer;
 /** @typedef {(ui8a:Uint8Array, byteOffset:number) => void} Read */
 /** @typedef {(ui8a:Uint8Array, byteOffset:number) => void} Write */
 
-/**
- * @extends {DataView<ArrayBuffer>}
- */
-export class MagicView extends DataView {
+export class MagicView extends BetterView {
     /**
      * @param {Init} [buffer]
      * @param {number} [byteOffset]
@@ -31,45 +29,7 @@ export class MagicView extends DataView {
     /**
      * Refers to the written bytes, usable to keep adding data.
      */
-    get size() { return this.byteLength }
-
-    /**
-     * Reads bytes from byteOffset to byteOffset + size and return an array
-     * @param {number} byteOffset
-     * @param {number} size
-     * @returns
-     */
-    getArray(byteOffset, size) {
-        return [...new Uint8Array(this.buffer.slice(byteOffset, byteOffset + size))];
-    }
-
-    /**
-     * Reads bytes from byteOffset to byteOffset + size and return
-     * a typed array - by default it's a Uint8Array
-     * @param {number} byteOffset
-     * @param {number} size
-     * @param {TypedArrayConstructor} [Class]
-     * @returns
-     */
-    getTyped(byteOffset, size, Class = Uint8Array) {
-        return new Class(this.buffer.slice(byteOffset, byteOffset + size));
-    }
-
-    /**
-     * Append the content of an array ot the current buffer,
-     * automatically resizing it on demand.
-     * @param {number} byteOffset
-     * @param {number[]} array
-     */
-    setArray(byteOffset, array) {}
-
-    /**
-     * Append the content of any typed array ot the current buffer,
-     * automatically resizing it on demand.
-     * @param {number} byteOffset
-     * @param {ArrayBufferView} typed
-     */
-    setTyped(byteOffset, typed) {}
+     get size() { return this.byteLength }
 
     /**
      * Reset the whole instance properties, erasing the buffer too.

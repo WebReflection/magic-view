@@ -7,7 +7,8 @@
 A [DataView](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView) like utility that automatically grows while adding data to its underlying buffer.
 
 ```ts
-import MagicView from 'https://esm.run/@webreflection/magic-view';
+import { MagicView, BetterView } from 'https://esm.run/@webreflection/magic-view';
+// BetterView is a DataView with get/setTyped and get/setArray methods on top
 
 // types
 type Init = number | number[] | ArrayBuffer | ArrayBufferView;

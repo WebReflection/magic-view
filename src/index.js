@@ -154,4 +154,6 @@ function MagicView(buffer = new ArrayBuffer(0xFFFF), byteOffset = 0) {
 
 MagicView.prototype = prototype;
 
-export default /** @type {MagicView} */(/** @type {unknown} */(MagicView));
+const MV = /** @type {MagicView} */(/** @type {unknown} */(MagicView));
+
+export { MV as MagicView, BetterView };

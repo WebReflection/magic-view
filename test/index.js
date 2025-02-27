@@ -1,4 +1,4 @@
-import MagicView from '../src/index.js';
+import { MagicView, BetterView } from '../src/index.js';
 
 const HOT = 5;
 const LENGTH = 0xFFFF;
@@ -104,7 +104,7 @@ for (let i = 0, length = HOT; i < length; i++) {
         j += 8;
     }
     if (timed) console.timeEnd('encode');
-    
+
     if (timed) console.time('decode');
     for (let j = 0, i = 0; i < r.length; i++) {
         if (v.getFloat64(j, littleEndian) !== r[i])

@@ -1,7 +1,6 @@
 //@ts-check
 
-import MagicView from '../src/index.js';
-import BetterView from '../src/better-view.js';
+import { MagicView, BetterView } from '../src/index.js';
 
 /** @param {boolean} situation */
 const assert = situation => {

@@ -49,7 +49,8 @@ mv.reset();
 
 const pi = new Float64Array([Math.PI]);
 mv.setTyped(0, pi);
-assert(mv.getTyped(0, Float64Array.BYTES_PER_ELEMENT, Float64Array)[0] === pi[0]);
+const typed = mv.getTyped(0, Float64Array.BYTES_PER_ELEMENT, Float64Array);
+assert(typed[0] === pi[0]);
 
 mv.reset();
 mv.setInt8(0, 1);

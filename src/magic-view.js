@@ -15,24 +15,24 @@ const { isView } = ArrayBuffer;
 /** @typedef {(ui8a:Uint8Array, byteOffset:number) => void} Write */
 
 export class MagicView extends BetterView {
-    /**
-     * @param {Init} [buffer]
-     * @param {number} [byteOffset]
-     */
-    constructor(buffer = new ArrayBuffer(0xFFFF), byteOffset = 0) {
-        if (typeof buffer === 'number') buffer = new ArrayBuffer(buffer);
-        else if (isArray(buffer)) buffer = new Uint8Array(buffer).buffer;
-        else if (isView(buffer)) buffer = /** @type {Transferable}*/(buffer.buffer);
-        super(/** @type {ArrayBuffer} */(buffer), byteOffset);
-    }
+  /**
+   * @param {Init} [buffer]
+   * @param {number} [byteOffset]
+   */
+  constructor(buffer = new ArrayBuffer(0xFFFF), byteOffset = 0) {
+    if (typeof buffer === 'number') buffer = new ArrayBuffer(buffer);
+    else if (isArray(buffer)) buffer = new Uint8Array(buffer).buffer;
+    else if (isView(buffer)) buffer = /** @type {Transferable}*/(buffer.buffer);
+    super(/** @type {ArrayBuffer} */(buffer), byteOffset);
+  }
 
-    /**
-     * Refers to the written bytes, usable to keep adding data.
-     */
-     get size() { return this.byteLength }
+  /**
+   * Refers to the written bytes, usable to keep adding data.
+   */
+   get size() { return this.byteLength }
 
-    /**
-     * Reset the whole instance properties, erasing the buffer too.
-     */
-    reset() {}
+  /**
+   * Reset the whole instance properties, erasing the buffer too.
+   */
+  reset() {}
 }

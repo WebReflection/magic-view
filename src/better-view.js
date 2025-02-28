@@ -46,7 +46,7 @@ export default class BetterView extends DataView {
   }
 
   /**
-   * Append the content of any typed array ot the current buffer,
+   * Append the content of any typed array to the current buffer,
    * automatically resizing it on demand.
    * @param {number} byteOffset
    * @param {TypedArray | ArrayBufferView} typed
@@ -54,5 +54,16 @@ export default class BetterView extends DataView {
   setTyped(byteOffset, typed) {
     const view = new Uint8Array(this.buffer);
     view.set(/** @type {ArrayLike<number>} */(typed), byteOffset);
+  }
+
+  /**
+   * Append the content of a `Uint8Array` view to the current buffer,
+   * automatically resizing it on demand.
+   * @param {number} byteOffset
+   * @param {Uint8Array} ui8a
+   */
+  setTypedU8(byteOffset, ui8a) {
+    const view = new Uint8Array(this.buffer);
+    view.set(ui8a, byteOffset);
   }
 }

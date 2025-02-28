@@ -96,3 +96,6 @@ assert(decoder.decode(bv.getTyped(0, 5)) === 'magic');
 bv.setArray(size, [1, 2, 3, 4]);
 assert(bv.getArray(size, 4).join(',') === '1,2,3,4');
 assert(bv.view instanceof Uint8Array);
+
+
+bv.setTypedU8(0, encoder.encode('magic'));

@@ -134,10 +134,10 @@ const MagicView = /** @type {{(buffer?: Init, byteOffset?: number): import("./ma
        * @param {number[]} array
        */
       setArray(byteOffset, array) {
-      const size = byteOffset + array.length;
-      resize(size);
-      if (i < size) i = size;
-      for (let j = 0; j < array.length; j++) view[byteOffset++] = array[j];
+        const size = byteOffset + array.length;
+        resize(size);
+        if (i < size) i = size;
+        for (let j = 0; j < array.length; j++) view[byteOffset++] = array[j];
       },
 
       /**
@@ -147,7 +147,19 @@ const MagicView = /** @type {{(buffer?: Init, byteOffset?: number): import("./ma
        * @param {TypedArray | ArrayBufferView} typed
        */
       setTyped(byteOffset, typed) {
-        const ui8a = typed instanceof Uint8Array ? typed : new Uint8Array(typed.buffer);
+        this.setTypedU8(
+          byteOffset,
+          typed instanceof Uint8Array ? typed : new Uint8Array(typed.buffer)
+        );
+      },
+
+      /**
+       * Append the content of a `Uint8Array` view to the current buffer,
+       * automatically resizing it on demand.
+       * @param {number} byteOffset
+       * @param {Uint8Array} ui8a
+       */
+      setTypedU8(byteOffset, ui8a) {
         write(ui8a, byteOffset);
       },
 

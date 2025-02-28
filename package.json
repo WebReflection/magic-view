@@ -19,7 +19,7 @@
         "LIENSE"
     ],
     "scripts": {
-        "build": "npm run ts && npm run benchmark && npm run test && npm run clean",
+        "build": "npm run ts && npm run benchmark && npm run test",
         "benchmark": "node test/index.js",
         "test": "c8 node ./test/cover.js",
         "help": "tsc --help",

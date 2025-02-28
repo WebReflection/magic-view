@@ -90,8 +90,9 @@ let size = mv.size;
 mv.setArray(size, [1, 2, 3, 4]);
 assert(mv.getArray(size, 4).join(',') === '1,2,3,4');
 
-const bv = new BetterView(mv.buffer);
+const bv = new BetterView(mv.view.buffer);
 bv.setTyped(0, encoder.encode('magic'));
 assert(decoder.decode(bv.getTyped(0, 5)) === 'magic');
 bv.setArray(size, [1, 2, 3, 4]);
 assert(bv.getArray(size, 4).join(',') === '1,2,3,4');
+assert(bv.view instanceof Uint8Array);

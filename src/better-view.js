@@ -5,6 +5,10 @@
 
 /** @extends {DataView<ArrayBuffer>} */
 export default class BetterView extends DataView {
+  get view() {
+    return new Uint8Array(this.buffer);
+  }
+
   /**
    * Reads bytes from byteOffset to byteOffset + size and return an array
    * @param {number} byteOffset

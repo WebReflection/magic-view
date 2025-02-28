@@ -32,17 +32,22 @@ class MagicView extends DataView {
     }
 
     // returns the current Uint8Array view length which
-    // might change in the future.
+    // might change in the future
     get byteLength() {}
 
     // when accessed, it seals the deal, meaning all operations
     // after will likely fail due detached buffer. This is meant
-    // to be accessed only after all operations are done.
+    // to be accessed only after all operations are done
     get buffer() {}
 
     // returns the current size of the written bytes which
     // will be the equivalent of the returned buffer byteLength
     get size() {}
+
+    // finalize operations, create a Uint8Array of the internal buffer
+    // and automatically reset the state for this reference, allowing
+    // further operations from scratch next time it's needed
+    get view() {}
 
     // reads bytes from byteOffset to byteOffset + size and return
     // a typed array - by default it's a Uint8Array, example:
@@ -54,12 +59,12 @@ class MagicView extends DataView {
 
     // like any other DataView method except it accepts
     // any TypedArray and it adds that to the underlying buffer
-    // on matter the length of it: it will grow if needed.
+    // on matter the length of it: it will grow if needed
     setTyped(byteOffset:number, typed:TypedArray) {}
 
     // after all operations are done and the `buffer`
     // has been retrieved, reuse this same instance
-    // for better JIT performance, where possible.
+    // for better JIT performance, where possible
     reset() {}
 }
 ```

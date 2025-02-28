@@ -90,6 +90,13 @@ const MagicView = /** @type {{(buffer?: Init, byteOffset?: number): import("./ma
       /** @readonly */
       get size() { return i },
 
+      /** @readonly @returns {Uint8Array<ArrayBuffer>} */
+      get view() {
+        const view = new Uint8Array(this.buffer);
+        this.reset();
+        return view;
+      },
+
       ...bits64(read, write),
       ...bits32(read, write),
       ...bits16(read, write),

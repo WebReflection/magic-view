@@ -57,7 +57,7 @@ mv.setInt8(0, 1);
 assert(mv.getInt8(0) === 1);
 mv.setUint8(0, 1);
 assert(mv.getUint8(0) === 1);
-mv.setDirectU8(0, 1);
+mv.setU8(0, 1);
 assert(mv.getUint8(0) === 1);
 
 mv.setUint16(0, 1);
@@ -101,4 +101,4 @@ assert(bv.view instanceof Uint8Array);
 
 
 bv.setTypedU8(0, encoder.encode('magic'));
-bv.setDirectU8(0, bv.getUint8(0));
+bv.setU8(0, bv.getUint8(0));

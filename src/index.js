@@ -68,8 +68,7 @@ const MagicView = /** @type {{(buffer?: Init, byteOffset?: number): import("./ma
 
     /** @type {Write} */
     const write = (ui8a, byteOffset) => {
-      const size = byteOffset + ui8a.length;
-      resize(size);
+      resize(byteOffset + ui8a.length);
       // slower in v8
       // for (let j = 0; j < ui8a.length; j++) view[byteOffset++] = ui8a[j];
       view.set(ui8a, byteOffset);
@@ -129,25 +128,23 @@ const MagicView = /** @type {{(buffer?: Init, byteOffset?: number): import("./ma
       },
 
       /**
-       * Append the content of an array ot the current buffer,
-       * automatically resizing it on demand.
+       * Append the content of an array of uint8 numbers
+       * to the current buffer, automatically resizing it on demand.
        * @param {number} byteOffset
        * @param {number[]} array
        */
       setArray(byteOffset, array) {
-        const size = byteOffset + array.length;
-        resize(size);
+        resize(byteOffset + array.length);
         for (let j = 0; j < array.length; j++) view[byteOffset++] = array[j];
       },
 
       /**
-       * Append just one uint8 value.
+       * Append just one uint8 value, resizing if needed.
        * @param {number} byteOffset
        * @param {number} value
        */
-      setDirectU8(byteOffset, value) {
-        const size = byteOffset + 1;
-        resize(size);
+      setU8(byteOffset, value) {
+        resize(byteOffset + 1);
         view[byteOffset] = value;
       },
 

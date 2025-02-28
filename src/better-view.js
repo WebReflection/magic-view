@@ -35,8 +35,8 @@ export default class BetterView extends DataView {
   }
 
   /**
-   * Append the content of an array ot the current buffer,
-   * automatically resizing it on demand.
+   * Append the content of an array of uint8 numbers
+   * to the current buffer, automatically resizing it on demand.
    * @param {number} byteOffset
    * @param {number[]} array
    */
@@ -46,11 +46,11 @@ export default class BetterView extends DataView {
   }
 
   /**
-   * Append just one uint8 value.
+   * Append just one uint8 value, resizing if needed.
    * @param {number} byteOffset
    * @param {number} value
    */
-  setDirectU8(byteOffset, value) {
+  setU8(byteOffset, value) {
     const view = new Uint8Array(this.buffer);
     view[byteOffset] = value;
   }

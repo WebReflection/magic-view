@@ -21,18 +21,18 @@ export default class BetterView extends DataView<ArrayBuffer> {
      */
     getTyped<TConstructor extends TypedArrayConstructor>(byteOffset: number, size: number, Class?: TConstructor): InstanceType<TConstructor>;
     /**
-     * Append the content of an array ot the current buffer,
-     * automatically resizing it on demand.
+     * Append the content of an array of uint8 numbers
+     * to the current buffer, automatically resizing it on demand.
      * @param {number} byteOffset
      * @param {number[]} array
      */
     setArray(byteOffset: number, array: number[]): void;
     /**
-     * Append just one uint8 value.
+     * Append just one uint8 value, resizing if needed.
      * @param {number} byteOffset
      * @param {number} value
      */
-    setDirectU8(byteOffset: number, value: number): void;
+    setU8(byteOffset: number, value: number): void;
     /**
      * Append the content of any typed array to the current buffer,
      * automatically resizing it on demand.

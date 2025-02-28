@@ -123,7 +123,7 @@ const MagicView = /** @type {{(buffer?: Init, byteOffset?: number): import("./ma
        */
       getTyped(byteOffset, size, Class = /** @type {TConstructor} */(Uint8Array)) {
         return /** @type {InstanceType<TConstructor>} */(
-          new Class(this.buffer.slice(byteOffset, byteOffset + size))
+          new Class(view.buffer.slice(byteOffset, byteOffset + size))
         );
       },
 

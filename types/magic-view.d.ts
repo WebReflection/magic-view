@@ -1,4 +1,9 @@
-
+/** @typedef {ArrayBuffer & {transferToFixedLength(length:number):Transferable}} Transferable */
+/** @typedef {Int8Array|Uint8Array|Int16Array|Uint16Array|Float32Array|Int32Array|Uint32Array|Float64Array|BigInt64Array|BigUint64Array} TypedArray */
+/** @typedef {Int8ArrayConstructor|Uint8ArrayConstructor|Int16ArrayConstructor|Uint16ArrayConstructor|Float32ArrayConstructor|Int32ArrayConstructor|Uint32ArrayConstructor|Float64ArrayConstructor|BigInt64ArrayConstructor|BigUint64ArrayConstructor} TypedArrayConstructor */
+/** @typedef {number|number[]|ArrayBuffer|ArrayBufferView} Init */
+/** @typedef {(ui8a:Uint8Array, byteOffset:number) => void} Read */
+/** @typedef {(ui8a:Uint8Array, byteOffset:number) => void} Write */
 export class MagicView extends BetterView {
     /**
      * @param {Init} [buffer]

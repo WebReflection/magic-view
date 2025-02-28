@@ -28,6 +28,12 @@ export default class BetterView extends DataView<ArrayBuffer> {
      */
     setArray(byteOffset: number, array: number[]): void;
     /**
+     * Append just one uint8 value.
+     * @param {number} byteOffset
+     * @param {number} value
+     */
+    setDirectU8(byteOffset: number, value: number): void;
+    /**
      * Append the content of any typed array to the current buffer,
      * automatically resizing it on demand.
      * @param {number} byteOffset

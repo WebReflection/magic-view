@@ -141,6 +141,17 @@ const MagicView = /** @type {{(buffer?: Init, byteOffset?: number): import("./ma
       },
 
       /**
+       * Append just one uint8 value.
+       * @param {number} byteOffset
+       * @param {number} value
+       */
+      setDirectU8(byteOffset, value) {
+        const size = byteOffset + 1;
+        resize(size);
+        view[byteOffset] = value;
+      },
+
+      /**
        * Append the content of any typed array ot the current buffer,
        * automatically resizing it on demand.
        * @param {number} byteOffset

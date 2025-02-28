@@ -46,6 +46,16 @@ export default class BetterView extends DataView {
   }
 
   /**
+   * Append just one uint8 value.
+   * @param {number} byteOffset
+   * @param {number} value
+   */
+  setDirectU8(byteOffset, value) {
+    const view = new Uint8Array(this.buffer);
+    view[byteOffset] = value;
+  }
+
+  /**
    * Append the content of any typed array to the current buffer,
    * automatically resizing it on demand.
    * @param {number} byteOffset

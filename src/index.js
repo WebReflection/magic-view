@@ -50,9 +50,11 @@ const MagicView = /** @type {{(buffer?: Init, byteOffset?: number): import("./ma
      * @param {number} length
      */
     const resize = length => {
-      if (view.length < length) {
-        view = review(view.buffer, length + byteOffset + LENGTH, byteOffset);
-        // console.log('resize', view.length);
+      if (i < length) {
+        i = length;
+        if (view.length < length) {
+          view = review(view.buffer, length + byteOffset + LENGTH, byteOffset);
+        }
       }
     };
 
@@ -68,7 +70,6 @@ const MagicView = /** @type {{(buffer?: Init, byteOffset?: number): import("./ma
     const write = (ui8a, byteOffset) => {
       const size = byteOffset + ui8a.length;
       resize(size);
-      if (i < size) i = size;
       // slower in v8
       // for (let j = 0; j < ui8a.length; j++) view[byteOffset++] = ui8a[j];
       view.set(ui8a, byteOffset);
@@ -136,7 +137,6 @@ const MagicView = /** @type {{(buffer?: Init, byteOffset?: number): import("./ma
       setArray(byteOffset, array) {
         const size = byteOffset + array.length;
         resize(size);
-        if (i < size) i = size;
         for (let j = 0; j < array.length; j++) view[byteOffset++] = array[j];
       },
 

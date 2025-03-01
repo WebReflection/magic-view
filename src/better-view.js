@@ -51,8 +51,7 @@ export default class BetterView extends DataView {
    * @param {number} value
    */
   setU8(byteOffset, value) {
-    const view = new Uint8Array(this.buffer);
-    view[byteOffset] = value;
+    super.setUint8(byteOffset, value);
   }
 
   /**

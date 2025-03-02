@@ -3,10 +3,10 @@
 /** @typedef {import("./magic-view.js").TypedArray} TypedArray */
 /** @typedef {import("./magic-view.js").TypedArrayConstructor} TypedArrayConstructor */
 
-/** @extends {DataView<ArrayBuffer>} */
+/** @extends {DataView<ArrayBufferLike>} */
 export default class BetterView extends DataView {
   /**
-   * @param {ArrayBuffer} buffer
+   * @param {ArrayBufferLike} buffer
    * @param {number} [byteOffset]
    */
   constructor(buffer, byteOffset = 0) {

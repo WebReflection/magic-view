@@ -1,12 +1,12 @@
 /** @typedef {import("./magic-view.js").TypedArray} TypedArray */
 /** @typedef {import("./magic-view.js").TypedArrayConstructor} TypedArrayConstructor */
-/** @extends {DataView<ArrayBuffer>} */
-export default class BetterView extends DataView<ArrayBuffer> {
+/** @extends {DataView<ArrayBufferLike>} */
+export default class BetterView extends DataView<ArrayBufferLike> {
     /**
-     * @param {ArrayBuffer} buffer
+     * @param {ArrayBufferLike} buffer
      * @param {number} [byteOffset]
      */
-    constructor(buffer: ArrayBuffer, byteOffset?: number);
+    constructor(buffer: ArrayBufferLike, byteOffset?: number);
     /** @readonly @type {Uint8Array} */
     readonly view: Uint8Array;
     /**

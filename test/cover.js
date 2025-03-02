@@ -40,17 +40,27 @@ assert(mv.byteLength === 0xFFF);
 mv = new MagicView;
 assert(mv.byteLength === 0xFFFF);
 
-mv.setTyped(mv.size, encoder.encode('magic'));
-mv.setTyped(mv.size, encoder.encode('view'));
+mv.setTypedU8(mv.size, encoder.encode('magic'));
+mv.setTypedU8(mv.size, encoder.encode('view'));
 
 assert(mv.size === 'magicview'.length);
 assert(decoder.decode(mv.buffer) === 'magicview');
+mv.reset();
+
+mv.setTyped(mv.size, new Uint32Array(encoder.encode('view').buffer));
+assert(decoder.decode(mv.buffer) === 'view');
+mv.reset();
+
+mv.setTyped(mv.size, encoder.encode('view'));
+assert(decoder.decode(mv.buffer) === 'view');
 mv.reset();
 
 const pi = new Float64Array([Math.PI]);
 mv.setTyped(0, pi);
 const typed = mv.getTyped(0, Float64Array.BYTES_PER_ELEMENT, Float64Array);
 assert(typed[0] === pi[0]);
+assert(new Float64Array(mv.getTyped(0, 8).buffer)[0] === pi[0]);
+assert(mv.getSub(0, 8).join(',') === new Uint8Array(pi.buffer).join(','));
 
 mv.reset();
 mv.setInt8(0, 1);
@@ -92,7 +102,9 @@ let size = mv.size;
 mv.setArray(size, [1, 2, 3, 4]);
 assert(mv.getArray(size, 4).join(',') === '1,2,3,4');
 
-const bv = new BetterView(mv.view.buffer);
+let bv = new BetterView(mv.view.buffer);
+bv.setTypedU8(0, encoder.encode('magic'));
+assert(decoder.decode(bv.getTyped(0, 5)) === 'magic');
 bv.setTyped(0, encoder.encode('magic'));
 assert(decoder.decode(bv.getTyped(0, 5)) === 'magic');
 bv.setArray(size, [1, 2, 3, 4]);
@@ -102,3 +114,10 @@ assert(bv.view instanceof Uint8Array);
 
 bv.setTypedU8(0, encoder.encode('magic'));
 bv.setU8(0, bv.getUint8(0));
+
+bv = new BetterView(new ArrayBuffer(4));
+const view = new Uint32Array(encoder.encode('view').buffer);
+bv.setTyped(0, view);
+assert(decoder.decode(bv.buffer) === 'view');
+assert(view[0] === bv.getTyped(0, Uint32Array.BYTES_PER_ELEMENT, Uint32Array)[0]);
+assert(bv.getSub(0, 4).join(',') === new Uint8Array(view.buffer).join(','));

@@ -113,6 +113,16 @@ const MagicView = /** @type {{(buffer?: Init, byteOffset?: number): import("./ma
       },
 
       /**
+       * Returns a subarray of the current view.
+       * @param {number} byteOffset
+       * @param {number} size
+       * @returns
+       */
+      getSub(byteOffset, size) {
+        return view.subarray(byteOffset, byteOffset + size);
+      },
+
+      /**
        * Reads bytes from byteOffset to byteOffset + size and return
        * a typed array - by default it's a Uint8Array
        * @template {TypedArrayConstructor} TConstructor
@@ -122,8 +132,9 @@ const MagicView = /** @type {{(buffer?: Init, byteOffset?: number): import("./ma
        * @returns {InstanceType<TConstructor>}
        */
       getTyped(byteOffset, size, Class = /** @type {TConstructor} */(Uint8Array)) {
+        const ui8a = view.slice(byteOffset, byteOffset + size);
         return /** @type {InstanceType<TConstructor>} */(
-          new Class(view.buffer.slice(byteOffset, byteOffset + size))
+          Class === Uint8Array ? ui8a : new Class(/** @type {ArrayBuffer} */(ui8a.buffer))
         );
       },
 
@@ -155,10 +166,8 @@ const MagicView = /** @type {{(buffer?: Init, byteOffset?: number): import("./ma
        * @param {TypedArray | ArrayBufferView} typed
        */
       setTyped(byteOffset, typed) {
-        this.setTypedU8(
-          byteOffset,
-          typed instanceof Uint8Array ? typed : new Uint8Array(typed.buffer)
-        );
+        const ui8a = typed instanceof Uint8Array ? typed : new Uint8Array(typed.buffer);
+        write(ui8a, byteOffset);
       },
 
       /**

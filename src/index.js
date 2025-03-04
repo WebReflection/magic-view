@@ -5,6 +5,8 @@ import bits16 from './bits/16.js';
 import bits32 from './bits/32.js';
 import bits64 from './bits/64.js';
 import BetterView from './better-view.js';
+import stringBytes from './string-bytes.js';
+import encoder from './text-encoder.js';
 
 const { isArray } = Array;
 const { isView } = ArrayBuffer;
@@ -178,6 +180,18 @@ const MagicView = /** @type {{(buffer?: Init, byteOffset?: number): import("./ma
        */
       setTypedU8(byteOffset, ui8a) {
         write(ui8a, byteOffset);
+      },
+
+      /**
+       * Set the string content into the current buffer,
+       * automatically resizing it on demand.
+       * @param {number} byteOffset
+       * @param {string} value
+       */
+      setString(byteOffset, value) {
+        const byteEndset = byteOffset + stringBytes(value);
+        resize(byteEndset);
+        encoder.encodeInto(value, view.subarray(byteOffset, byteEndset));
       },
 
       /**

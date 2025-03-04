@@ -52,11 +52,17 @@ export default class BetterView extends DataView<ArrayBufferLike> {
      */
     setTyped(byteOffset: number, typed: TypedArray | ArrayBufferView): void;
     /**
-     * Set the content of a `Uint8Array` view to the current buffer,
+     * Set the content of a `Uint8Array` view to the current buffer.
      * @param {number} byteOffset
      * @param {Uint8Array} ui8a
      */
     setTypedU8(byteOffset: number, ui8a: Uint8Array): void;
+    /**
+     * Set the string content into the current buffer.
+     * @param {number} byteOffset
+     * @param {string} value
+     */
+    setString(byteOffset: number, value: string): void;
 }
 export type TypedArray = import("./magic-view.js").TypedArray;
 export type TypedArrayConstructor = import("./magic-view.js").TypedArrayConstructor;

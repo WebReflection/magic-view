@@ -1,5 +1,8 @@
 //@ts-check
 
+import stringBytes from './string-bytes.js';
+import encoder from './text-encoder.js';
+
 /** @typedef {import("./magic-view.js").TypedArray} TypedArray */
 /** @typedef {import("./magic-view.js").TypedArrayConstructor} TypedArrayConstructor */
 
@@ -80,11 +83,21 @@ export default class BetterView extends DataView {
   }
 
   /**
-   * Set the content of a `Uint8Array` view to the current buffer,
+   * Set the content of a `Uint8Array` view to the current buffer.
    * @param {number} byteOffset
    * @param {Uint8Array} ui8a
    */
   setTypedU8(byteOffset, ui8a) {
     this.view.set(ui8a, byteOffset);
+  }
+
+  /**
+   * Set the string content into the current buffer.
+   * @param {number} byteOffset
+   * @param {string} value
+   */
+  setString(byteOffset, value) {
+    const byteEndset = byteOffset + stringBytes(value);
+    encoder.encodeInto(value, this.view.subarray(byteOffset, byteEndset));
   }
 }

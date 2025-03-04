@@ -61,8 +61,9 @@ export default class BetterView extends DataView<ArrayBufferLike> {
      * Set the string content into the current buffer.
      * @param {number} byteOffset
      * @param {string} value
+     * @param {number} [bytes]
      */
-    setString(byteOffset: number, value: string): void;
+    setString(byteOffset: number, value: string, bytes?: number): void;
 }
 export type TypedArray = import("./magic-view.js").TypedArray;
 export type TypedArrayConstructor = import("./magic-view.js").TypedArrayConstructor;

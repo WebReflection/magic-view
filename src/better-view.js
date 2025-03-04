@@ -95,9 +95,10 @@ export default class BetterView extends DataView {
    * Set the string content into the current buffer.
    * @param {number} byteOffset
    * @param {string} value
+   * @param {number} [bytes]
    */
-  setString(byteOffset, value) {
-    const byteEndset = byteOffset + stringBytes(value);
+  setString(byteOffset, value, bytes = stringBytes(value)) {
+    const byteEndset = byteOffset + bytes;
     encoder.encodeInto(value, this.view.subarray(byteOffset, byteEndset));
   }
 }

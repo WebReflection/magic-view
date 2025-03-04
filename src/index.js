@@ -187,9 +187,10 @@ const MagicView = /** @type {{(buffer?: Init, byteOffset?: number): import("./ma
        * automatically resizing it on demand.
        * @param {number} byteOffset
        * @param {string} value
+       * @param {number} [bytes]
        */
-      setString(byteOffset, value) {
-        const byteEndset = byteOffset + stringBytes(value);
+      setString(byteOffset, value, bytes = stringBytes(value)) {
+        const byteEndset = byteOffset + bytes;
         resize(byteEndset);
         encoder.encodeInto(value, view.subarray(byteOffset, byteEndset));
       },
@@ -208,4 +209,4 @@ const MagicView = /** @type {{(buffer?: Init, byteOffset?: number): import("./ma
 
 MagicView.prototype = prototype;
 
-export { MagicView, BetterView };
+export { MagicView, BetterView, stringBytes };

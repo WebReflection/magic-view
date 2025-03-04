@@ -15,4 +15,5 @@ export const MagicView: {
     new (buffer?: Init, byteOffset?: number): import("./magic-view.js").MagicView;
 };
 import BetterView from './better-view.js';
-export { BetterView };
+import stringBytes from './string-bytes.js';
+export { BetterView, stringBytes };
